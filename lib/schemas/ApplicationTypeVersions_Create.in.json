@@ -1,0 +1,97 @@
+{
+    "type": "object",
+    "properties": {
+        "subscriptionId": {
+            "required": true,
+            "type": "string"
+        },
+        "resourceGroupName": {
+            "required": true,
+            "type": "string"
+        },
+        "clusterName": {
+            "required": true,
+            "type": "string"
+        },
+        "applicationTypeName": {
+            "required": true,
+            "type": "string"
+        },
+        "version": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "allOf": [
+                {
+                    "description": "The resource model definition for proxy-only resource.",
+                    "properties": {
+                        "id": {
+                            "description": "Azure resource identifier.",
+                            "readOnly": true,
+                            "type": "string"
+                        },
+                        "location": {
+                            "description": "Azure resource location.",
+                            "type": "string",
+                            "x-ms-mutability": [
+                                "create",
+                                "read"
+                            ]
+                        },
+                        "name": {
+                            "description": "Azure resource name.",
+                            "readOnly": true,
+                            "type": "string"
+                        },
+                        "type": {
+                            "description": "Azure resource type.",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    },
+                    "x-ms-azure-resource": true,
+                    "type": "object"
+                }
+            ],
+            "description": "An application type version resource for the specified application type name resource.",
+            "properties": {
+                "properties": {
+                    "description": "The properties of the application type version resource.",
+                    "x-ms-client-flatten": true,
+                    "properties": {
+                        "appPackageUrl": {
+                            "description": "The URL to the application package",
+                            "type": "string"
+                        },
+                        "defaultParameterList": {
+                            "description": "List of application type parameters that can be overridden when creating or updating the application.",
+                            "readOnly": true,
+                            "additionalProperties": {
+                                "type": "string"
+                            },
+                            "type": "object"
+                        },
+                        "provisioningState": {
+                            "description": "The current deployment or provisioning state, which only appears in the response",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "appPackageUrl"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "api_version": {
+            "required": true,
+            "type": "string",
+            "enum": [
+                "2017-07-01-preview"
+            ],
+            "default": "2017-07-01-preview"
+        }
+    }
+}

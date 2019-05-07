@@ -1,0 +1,323 @@
+{
+    "type": "object",
+    "properties": {
+        "subscriptionId": {
+            "required": true,
+            "type": "string"
+        },
+        "resourceGroupName": {
+            "required": true,
+            "type": "string"
+        },
+        "clusterName": {
+            "required": true,
+            "type": "string"
+        },
+        "applicationName": {
+            "required": true,
+            "type": "string"
+        },
+        "serviceName": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "allOf": [
+                {
+                    "description": "The resource model definition for proxy-only resource.",
+                    "properties": {
+                        "id": {
+                            "description": "Azure resource identifier.",
+                            "readOnly": true,
+                            "type": "string"
+                        },
+                        "location": {
+                            "description": "Azure resource location.",
+                            "type": "string",
+                            "x-ms-mutability": [
+                                "create",
+                                "read"
+                            ]
+                        },
+                        "name": {
+                            "description": "Azure resource name.",
+                            "readOnly": true,
+                            "type": "string"
+                        },
+                        "type": {
+                            "description": "Azure resource type.",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    },
+                    "x-ms-azure-resource": true,
+                    "type": "object"
+                }
+            ],
+            "description": "The service resource for patch operations.",
+            "properties": {
+                "properties": {
+                    "description": "The service resource properties for patch operations.",
+                    "x-ms-client-flatten": true,
+                    "allOf": [
+                        {
+                            "description": "The common service resource properties.",
+                            "properties": {
+                                "correlationScheme": {
+                                    "description": "A list that describes the correlation of the service with other services.",
+                                    "items": {
+                                        "description": "Creates a particular correlation between services.",
+                                        "properties": {
+                                            "Scheme": {
+                                                "description": "The ServiceCorrelationScheme which describes the relationship between this service and the service specified via ServiceName.",
+                                                "enum": [
+                                                    "Invalid",
+                                                    "Affinity",
+                                                    "AlignedAffinity",
+                                                    "NonAlignedAffinity"
+                                                ],
+                                                "type": "string",
+                                                "x-ms-enum": {
+                                                    "modelAsString": true,
+                                                    "name": "ServiceCorrelationScheme",
+                                                    "values": [
+                                                        {
+                                                            "description": "An invalid correlation scheme. Cannot be used. The value is zero.",
+                                                            "value": "Invalid"
+                                                        },
+                                                        {
+                                                            "description": "Indicates that this service has an affinity relationship with another service. Provided for backwards compatibility, consider preferring the Aligned or NonAlignedAffinity options. The value is 1.",
+                                                            "value": "Affinity"
+                                                        },
+                                                        {
+                                                            "description": "Aligned affinity ensures that the primaries of the partitions of the affinitized services are collocated on the same nodes. This is the default and is the same as selecting the Affinity scheme. The value is 2.",
+                                                            "value": "AlignedAffinity"
+                                                        },
+                                                        {
+                                                            "description": "Non-Aligned affinity guarantees that all replicas of each service will be placed on the same nodes. Unlike Aligned Affinity, this does not guarantee that replicas of particular role will be collocated. The value is 3.",
+                                                            "value": "NonAlignedAffinity"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "ServiceName": {
+                                                "description": "The name of the service that the correlation relationship is established with.",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "Scheme",
+                                            "ServiceName"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                },
+                                "defaultMoveCost": {
+                                    "description": "Specifies the move cost for the service.",
+                                    "enum": [
+                                        "Zero",
+                                        "Low",
+                                        "Medium",
+                                        "High"
+                                    ],
+                                    "type": "string",
+                                    "x-ms-enum": {
+                                        "modelAsString": true,
+                                        "name": "MoveCost",
+                                        "values": [
+                                            {
+                                                "description": "Zero move cost. This value is zero.",
+                                                "value": "Zero"
+                                            },
+                                            {
+                                                "description": "Specifies the move cost of the service as Low. The value is 1.",
+                                                "value": "Low"
+                                            },
+                                            {
+                                                "description": "Specifies the move cost of the service as Medium. The value is 2.",
+                                                "value": "Medium"
+                                            },
+                                            {
+                                                "description": "Specifies the move cost of the service as High. The value is 3.",
+                                                "value": "High"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "placementConstraints": {
+                                    "description": "The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: \"NodeColor == blue)\".",
+                                    "type": "string"
+                                },
+                                "serviceLoadMetrics": {
+                                    "description": "The service load metrics is given as an array of ServiceLoadMetricDescription objects.",
+                                    "items": {
+                                        "description": "Specifies a metric to load balance a service during runtime.",
+                                        "properties": {
+                                            "DefaultLoad": {
+                                                "description": "Used only for Stateless services. The default amount of load, as a number, that this service creates for this metric.",
+                                                "type": "integer"
+                                            },
+                                            "Name": {
+                                                "description": "The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive.",
+                                                "type": "string"
+                                            },
+                                            "PrimaryDefaultLoad": {
+                                                "description": "Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Primary replica.",
+                                                "type": "integer"
+                                            },
+                                            "SecondaryDefaultLoad": {
+                                                "description": "Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica.",
+                                                "type": "integer"
+                                            },
+                                            "Weight": {
+                                                "description": "The service load metric relative weight, compared to other metrics configured for this service, as a number.",
+                                                "enum": [
+                                                    "Zero",
+                                                    "Low",
+                                                    "Medium",
+                                                    "High"
+                                                ],
+                                                "type": "string",
+                                                "x-ms-enum": {
+                                                    "modelAsString": true,
+                                                    "name": "ServiceLoadMetricWeight",
+                                                    "values": [
+                                                        {
+                                                            "description": "Disables resource balancing for this metric. This value is zero.",
+                                                            "value": "Zero"
+                                                        },
+                                                        {
+                                                            "description": "Specifies the metric weight of the service load as Low. The value is 1.",
+                                                            "value": "Low"
+                                                        },
+                                                        {
+                                                            "description": "Specifies the metric weight of the service load as Medium. The value is 2.",
+                                                            "value": "Medium"
+                                                        },
+                                                        {
+                                                            "description": "Specifies the metric weight of the service load as High. The value is 3.",
+                                                            "value": "High"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "Name"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                },
+                                "servicePlacementPolicies": {
+                                    "description": "A list that describes the correlation of the service with other services.",
+                                    "items": {
+                                        "description": "Describes the policy to be used for placement of a Service Fabric service.",
+                                        "discriminator": {
+                                            "propertyName": "Type"
+                                        },
+                                        "properties": {
+                                            "Type": {
+                                                "description": "The type of placement policy for a service fabric service. Following are the possible values.",
+                                                "enum": [
+                                                    "Invalid",
+                                                    "InvalidDomain",
+                                                    "RequiredDomain",
+                                                    "PreferredPrimaryDomain",
+                                                    "RequiredDomainDistribution",
+                                                    "NonPartiallyPlaceService"
+                                                ],
+                                                "type": "string",
+                                                "x-ms-enum": {
+                                                    "modelAsString": true,
+                                                    "name": "ServicePlacementPolicyType",
+                                                    "values": [
+                                                        {
+                                                            "description": "Indicates the type of the placement policy is invalid. All Service Fabric enumerations have the invalid type. The value is zero.",
+                                                            "value": "Invalid"
+                                                        },
+                                                        {
+                                                            "description": "Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementInvalidDomainPolicyDescription, which indicates that a particular fault or upgrade domain cannot be used for placement of this service. The value is 1.",
+                                                            "value": "InvalidDomain"
+                                                        },
+                                                        {
+                                                            "description": "Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription indicating that the replicas of the service must be placed in a specific domain. The value is 2.",
+                                                            "value": "RequiredDomain"
+                                                        },
+                                                        {
+                                                            "description": "Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that if possible the Primary replica for the partitions of the service should be located in a particular domain as an optimization. The value is 3.",
+                                                            "value": "PreferredPrimaryDomain"
+                                                        },
+                                                        {
+                                                            "description": "Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription, indicating that the system will disallow placement of any two replicas from the same partition in the same domain at any time. The value is 4.",
+                                                            "value": "RequiredDomainDistribution"
+                                                        },
+                                                        {
+                                                            "description": "Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementNonPartiallyPlaceServicePolicyDescription, which indicates that if possible all replicas of a particular partition of the service should be placed atomically. The value is 5.",
+                                                            "value": "NonPartiallyPlaceService"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "Type"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ],
+                    "discriminator": {
+                        "propertyName": "serviceKind"
+                    },
+                    "properties": {
+                        "serviceKind": {
+                            "description": "The kind of service (Stateless or Stateful).",
+                            "enum": [
+                                "Invalid",
+                                "Stateless",
+                                "Stateful"
+                            ],
+                            "type": "string",
+                            "x-ms-enum": {
+                                "modelAsString": true,
+                                "name": "ServiceKind",
+                                "values": [
+                                    {
+                                        "description": "Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.",
+                                        "value": "Invalid"
+                                    },
+                                    {
+                                        "description": "Does not use Service Fabric to make its state highly available or reliable. The value is 1.",
+                                        "value": "Stateless"
+                                    },
+                                    {
+                                        "description": "Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.",
+                                        "value": "Stateful"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "required": [
+                        "serviceKind"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "api_version": {
+            "required": true,
+            "type": "string",
+            "enum": [
+                "2017-07-01-preview"
+            ],
+            "default": "2017-07-01-preview"
+        }
+    }
+}
